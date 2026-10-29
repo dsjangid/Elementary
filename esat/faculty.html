@@ -244,10 +244,14 @@
 <div id="pageTransitionOverlay" class="page-transition-overlay" aria-hidden="true"></div>
 <!-- Top Navigation Bar -->
 <nav class="fixed top-0 inset-x-0 w-full z-50 glass-nav">
-  <div class="flex justify-between items-center w-full px-4 sm:px-6 lg:px-8 py-3 md:py-4 max-w-screen-2xl mx-auto gap-4">
-    <div class="text-lg sm:text-xl md:text-2xl font-black tracking-tighter text-blue-900 font-headline uppercase truncate min-w-0">
-      Elementary Science Academy
-    </div>
+  <div class="flex justify-between items-center w-full px-3.5 sm:px-6 lg:px-8 py-2.5 sm:py-3 md:py-4 max-w-screen-2xl mx-auto gap-2 sm:gap-4">
+    <a href="index.html" class="flex items-center min-w-0 flex-1 sm:flex-initial text-decoration-none">
+      <div class="text-sm sm:text-xl md:text-2xl font-black tracking-tight text-blue-900 font-headline uppercase truncate">
+        <span class="hidden sm:inline">Elementary Science Academy</span>
+        <span class="sm:hidden">ESA Academy</span>
+      </div>
+    </a>
+    
     <div class="hidden lg:flex items-center space-x-8">
       <a class="nav-link text-slate-700 hover:text-blue-800 transition-colors font-label text-sm font-semibold" href="index.html">Home</a>
       <a class="nav-link text-slate-700 hover:text-blue-800 transition-colors font-label text-sm font-semibold" href="about.html">About Us</a>
@@ -257,18 +261,78 @@
       <a class="nav-link text-slate-700 hover:text-blue-800 transition-colors font-label text-sm font-semibold" href="facilities.html">Facilities</a>
       <a class="nav-link text-slate-700 hover:text-blue-800 transition-colors font-label text-sm font-semibold" href="contact.html">Contact</a>
     </div>
-    <a href="https://forms.gle/RdeYHtTXH1L8W7q7A" class="bg-primary text-on-primary px-4 sm:px-6 py-2.5 rounded-lg font-semibold hover:bg-primary-container transition-all active:scale-95 whitespace-nowrap flex-shrink-0">
-      Enroll Now
-    </a>
+
+    <div class="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
+      <a href="https://forms.gle/RdeYHtTXH1L8W7q7A" class="bg-primary text-on-primary px-2.5 sm:px-5 py-1.5 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold hover:bg-primary-container transition-all active:scale-95 whitespace-nowrap">
+        Enroll Now
+      </a>
+      <button id="mobileMenuOpen" class="lg:hidden flex items-center justify-center p-1.5 sm:p-2 rounded-lg text-blue-900 hover:bg-blue-50 focus:outline-none transition-colors" aria-label="Open mobile menu">
+        <span class="material-symbols-outlined text-2xl leading-none">menu</span>
+      </button>
+    </div>
   </div>
 </nav>
+<!-- Mobile Navigation Drawer -->
+<div id="mobileDrawerBackdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true"></div>
+<aside id="mobileDrawer" class="fixed top-0 right-0 bottom-0 w-[84vw] max-w-sm bg-white z-[80] shadow-2xl flex flex-col justify-between invisible translate-x-full transition-all duration-300 ease-out" aria-label="Mobile Navigation Drawer">
+  <div class="p-6 overflow-y-auto">
+    <div class="flex items-center justify-between pb-6 border-b border-slate-100">
+      <div class="text-base font-black tracking-tight text-blue-900 font-headline uppercase truncate">
+        Elementary Academy
+      </div>
+      <button id="mobileMenuClose" class="p-2 rounded-lg text-slate-500 hover:text-blue-900 hover:bg-slate-100 transition-colors" aria-label="Close menu">
+        <span class="material-symbols-outlined text-2xl">close</span>
+      </button>
+    </div>
+
+    <!-- Drawer Navigation Links -->
+    <nav class="flex flex-col space-y-1.5 mt-6">
+      <a class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-700 hover:text-blue-900 hover:bg-blue-50 font-semibold text-base transition-colors" href="index.html">
+        <span class="material-symbols-outlined text-xl">home</span> Home
+      </a>
+      <a class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-700 hover:text-blue-900 hover:bg-blue-50 font-semibold text-base transition-colors" href="about.html">
+        <span class="material-symbols-outlined text-xl">info</span> About Us
+      </a>
+      <a class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-700 hover:text-blue-900 hover:bg-blue-50 font-semibold text-base transition-colors" href="courses.html">
+        <span class="material-symbols-outlined text-xl">menu_book</span> Courses
+      </a>
+      <a class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-700 hover:text-blue-900 hover:bg-blue-50 font-semibold text-base transition-colors" href="ESAT.html">
+        <span class="material-symbols-outlined text-xl">school</span> ESAT
+      </a>
+      <a class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-700 hover:text-blue-900 hover:bg-blue-50 font-semibold text-base transition-colors" href="faculty.html">
+        <span class="material-symbols-outlined text-xl">groups</span> Faculty
+      </a>
+      <a class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-700 hover:text-blue-900 hover:bg-blue-50 font-semibold text-base transition-colors" href="facilities.html">
+        <span class="material-symbols-outlined text-xl">apartment</span> Facilities
+      </a>
+      <a class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-700 hover:text-blue-900 hover:bg-blue-50 font-semibold text-base transition-colors" href="contact.html">
+        <span class="material-symbols-outlined text-xl">contact_support</span> Contact
+      </a>
+    </nav>
+  </div>
+
+  <!-- Drawer Footer Quick Actions -->
+  <div class="p-6 bg-slate-50 border-t border-slate-100 flex flex-col gap-3">
+    <a href="https://forms.gle/RdeYHtTXH1L8W7q7A" class="w-full text-center py-3 px-4 rounded-xl font-bold bg-primary text-white shadow-md hover:bg-primary-container transition-all text-sm">
+      Enroll Now
+    </a>
+    <div class="flex gap-2">
+      <a href="tel:9079205366" class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg border border-slate-200 text-slate-700 font-semibold text-xs hover:bg-white transition-colors">
+        <span class="material-symbols-outlined text-base">call</span> Call Us
+      </a>
+      <a href="https://wa.me/919079205366" class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg border border-slate-200 text-slate-700 font-semibold text-xs hover:bg-white transition-colors">
+        <span class="material-symbols-outlined text-base">chat</span> WhatsApp
+      </a>
+    </div>
+  </div>
+</aside>
 <main class="pt-32 pb-24 px-8 max-w-7xl mx-auto">
 <!-- Hero Section -->
 <section class="mb-24">
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
 <div class="lg:col-span-8">
 <span class="label-md font-semibold text-primary uppercase tracking-widest mb-4 block" style="">Our Educators</span>
-<h1 class="font-headline font-extrabold text-5xl md:text-7xl text-on-surface leading-tight tracking-tighter mb-6" style="">
+<h1 class="font-headline font-extrabold text-3xl sm:text-4xl md:text-5xl md:text-7xl break-words text-on-surface leading-tight tracking-tighter mb-6" style="">
                         Dedicated subject experts.
                     </h1>
 </div>
@@ -543,6 +607,31 @@
     }
 
     setActiveNav();
+
+    // Mobile Drawer Logic
+    const drawer = document.getElementById('mobileDrawer');
+    const backdrop = document.getElementById('mobileDrawerBackdrop');
+    const openBtn = document.getElementById('mobileMenuOpen');
+    const closeBtn = document.getElementById('mobileMenuClose');
+    const drawerLinks = document.querySelectorAll('.drawer-link');
+
+    function openDrawer() {
+      if (!drawer || !backdrop) return;
+      drawer.classList.remove('invisible');
+      requestAnimationFrame(() => {
+        backdrop.classList.remove('opacity-0', 'pointer-events-none');
+        backdrop.classList.add('opacity-100', 'pointer-events-auto');
+        drawer.classList.remove('translate-x-full');
+      });
+
+    // Highlight active link in drawer
+    drawerLinks.forEach(link => {
+      const target = link.getAttribute('href');
+      if (target === activePage || (activePage === '' && target === 'index.html')) {
+        link.classList.add('bg-blue-50', 'text-blue-900', 'font-bold');
+      }
+    });
+
     syncNavGlass();
     window.addEventListener('scroll', requestNavGlassSync, { passive: true });
   });
