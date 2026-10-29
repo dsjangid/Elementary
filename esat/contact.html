@@ -338,7 +338,7 @@
     <h2 class="text-3xl font-headline font-extrabold text-primary mb-2">Send an Inquiry</h2>
     <p class="text-on-surface-variant mb-8">Fill out the form below and our academic coordinator will contact you shortly.</p>
 
-   <form action="https://formsubmit.co/shubham0012.sg@gmail.com" method="POST" enctype="multipart/form-data" class="space-y-6">
+   <form id="inquiryForm" action="https://formsubmit.co/shubham0012.sg@gmail.com" method="POST" enctype="multipart/form-data" class="space-y-6">
       
       <!-- Hidden settings -->
       <input type="hidden" name="_subject" value="New Academic Inquiry Form Submission"/>
@@ -529,6 +529,43 @@
     setActiveNav();
     syncNavGlass();
     window.addEventListener('scroll', requestNavGlassSync, { passive: true });
+
+    // WhatsApp Form Submission Handler
+    const inquiryForm = document.getElementById('inquiryForm');
+    if (inquiryForm) {
+      inquiryForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const name = (inquiryForm.elements['name']?.value || '').trim();
+        const phone = (inquiryForm.elements['phone']?.value || '').trim();
+        const grade = (inquiryForm.elements['grade']?.value || '').trim();
+        const message = (inquiryForm.elements['message']?.value || '').trim();
+
+        const waNumber = '919079205366';
+        const customMsg = 
+`Hello Elementary Science Academy!
+
+I would like to submit an academic inquiry:
+*Name:* ${name}
+*Phone:* ${phone}
+*Grade/Standard:* ${grade}
+*Message:* ${message || 'N/A'}`;
+
+        const whatsappUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(customMsg)}`;
+
+        // Send to formsubmit in background so email record is maintained
+        try {
+          fetch(inquiryForm.action, {
+            method: 'POST',
+            body: new FormData(inquiryForm),
+            headers: { 'Accept': 'application/json' }
+          }).catch(() => {});
+        } catch (err) {}
+
+        // Redirect directly to WhatsApp
+        window.location.href = whatsappUrl;
+      });
+    }
   });
 </script>
 
