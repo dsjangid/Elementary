@@ -194,11 +194,11 @@
         }
     </style>
     <style>
-        body.page-transition-ready {
+        body. {
             opacity: 0;
             transform: translateY(14px) scale(1);
         }
-        body.page-transition-ready,
+        body.,
         body.page-transition-enter,
         body.page-transition-exit {
             will-change: opacity, transform;
@@ -215,33 +215,18 @@
             opacity: 0;
             transform: translateY(0) scale(0.986);
         }
-        #pageTransitionOverlay {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            opacity: 0;
-            background: radial-gradient(circle at top, rgba(255,255,255,0.22), rgba(255,255,255,0) 30%),
-                        linear-gradient(180deg, rgba(255,255,255,0.14), rgba(15,23,42,0.08));
-            backdrop-filter: blur(4px);
-            transition: opacity 320ms cubic-bezier(0.22, 1, 0.36, 1);
-            z-index: 60;
-        }
-        #pageTransitionOverlay.active {
-            opacity: 1;
-        }
+        
+        
         @media (prefers-reduced-motion: reduce) {
-            body.page-transition-ready,
+            body.,
             body.page-transition-enter,
             body.page-transition-exit,
-            #pageTransitionOverlay {
-                transition: none !important;
-                animation: none !important;
-            }
+            
         }
     </style>
 </head>
-<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed-dim selection:text-primary page-transition-ready">
-<div id="pageTransitionOverlay" class="page-transition-overlay" aria-hidden="true"></div>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed-dim selection:text-primary ">
+
 <!-- Top Navigation Bar -->
 <nav class="fixed top-0 inset-x-0 w-full z-50 glass-nav">
   <div class="flex justify-between items-center w-full px-3.5 sm:px-6 lg:px-8 py-2.5 sm:py-3 md:py-4 max-w-screen-2xl mx-auto gap-2 sm:gap-4">
@@ -542,13 +527,12 @@
     const activePage = window.location.pathname.split('/').pop() || 'index.html';
     const navLinks = document.querySelectorAll('nav.glass-nav a[href]');
     const glassNav = document.querySelector('nav.glass-nav');
-    const body = document.body;
-    const overlay = document.getElementById('pageTransitionOverlay');
-    const transitionDuration = 320;
     let navTicking = false;
 
     function syncNavGlass() {
-      glassNav?.classList.toggle('is-scrolled', window.scrollY > 12);
+      if (glassNav) {
+        glassNav.classList.toggle('is-scrolled', window.scrollY > 12);
+      }
       navTicking = false;
     }
 
@@ -569,45 +553,6 @@
       });
     }
 
-    function beginLeaveTransition(href) {
-      body.classList.remove('page-transition-enter', 'page-transition-ready');
-      body.classList.add('page-transition-exit');
-      overlay?.classList.add('active');
-      window.setTimeout(() => {
-        window.location.href = href;
-      }, transitionDuration);
-    }
-
-    navLinks.forEach(navLink => {
-      const href = navLink.getAttribute('href');
-      if (!href) return;
-      navLink.addEventListener('click', function(event) {
-        if (href.startsWith('#') || href.startsWith('tel:') || href.startsWith('mailto:') ||
-            href.startsWith('http') || href.startsWith('https') || this.hasAttribute('target')) {
-          return;
-        }
-        if (!href.endsWith('.html') && href !== 'index.html') {
-          return;
-        }
-        event.preventDefault();
-        beginLeaveTransition(href);
-      });
-    });
-
-    if (body.classList.contains('page-transition-ready')) {
-      requestAnimationFrame(() => {
-        body.classList.remove('page-transition-ready');
-        body.classList.add('page-transition-enter');
-        overlay?.classList.add('active');
-        window.setTimeout(() => {
-          overlay?.classList.remove('active');
-          body.classList.remove('page-transition-enter');
-        }, transitionDuration);
-      });
-    }
-
-    setActiveNav();
-
     // Mobile Drawer Logic
     const drawer = document.getElementById('mobileDrawer');
     const backdrop = document.getElementById('mobileDrawerBackdrop');
@@ -623,6 +568,29 @@
         backdrop.classList.add('opacity-100', 'pointer-events-auto');
         drawer.classList.remove('translate-x-full');
       });
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+      if (!drawer || !backdrop) return;
+      backdrop.classList.remove('opacity-100', 'pointer-events-auto');
+      backdrop.classList.add('opacity-0', 'pointer-events-none');
+      drawer.classList.add('translate-x-full');
+      setTimeout(() => {
+        if (drawer.classList.contains('translate-x-full')) {
+          drawer.classList.add('invisible');
+        }
+      }, 320);
+      document.body.style.overflow = '';
+    }
+
+    if (openBtn) openBtn.addEventListener('click', openDrawer);
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    if (backdrop) backdrop.addEventListener('click', closeDrawer);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDrawer();
+    });
 
     // Highlight active link in drawer
     drawerLinks.forEach(link => {
@@ -632,8 +600,47 @@
       }
     });
 
+    // Inquiry form WhatsApp handler (if present)
+    const inquiryForm = document.getElementById('inquiryForm');
+    if (inquiryForm) {
+      inquiryForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const name = (inquiryForm.elements['name'] ? inquiryForm.elements['name'].value : '').trim();
+        const phone = (inquiryForm.elements['phone'] ? inquiryForm.elements['phone'].value : '').trim();
+        const grade = (inquiryForm.elements['grade'] ? inquiryForm.elements['grade'].value : '').trim();
+        const message = (inquiryForm.elements['message'] ? inquiryForm.elements['message'].value : '').trim();
+
+        const waNumber = '919079205366';
+        const nl = String.fromCharCode(10);
+        const parts = [
+          'Hello Elementary Science Academy!',
+          '',
+          'I would like to submit an academic inquiry:',
+          '*Name:* ' + name,
+          '*Phone:* ' + phone,
+          '*Grade/Standard:* ' + grade,
+          '*Message:* ' + (message || 'N/A')
+        ];
+        const customMsg = parts.join(nl);
+        const whatsappUrl = 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(customMsg);
+
+        try {
+          fetch(inquiryForm.action, {
+            method: 'POST',
+            body: new FormData(inquiryForm),
+            headers: { 'Accept': 'application/json' }
+          }).catch(function() {});
+        } catch (err) {}
+
+        window.location.href = whatsappUrl;
+      });
+    }
+
+    setActiveNav();
     syncNavGlass();
     window.addEventListener('scroll', requestNavGlassSync, { passive: true });
   });
 </script>
+</body>
 </html>
